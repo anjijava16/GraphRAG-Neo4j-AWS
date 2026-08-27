@@ -1,0 +1,51 @@
+# Pinned, not floated. Strands supplies the tool specification the model
+# reads, and neo4j-graphrag supplies the Text2Cypher path an agent calls
+# directly from Module 3. A range that resolves differently next Tuesday
+# changes what the model sees and what the database is asked to plan,
+# without anything in this repository changing. These are the versions the
+# workshop is verified on, and they are the versions the Runtime and the
+# retrieval Lambdas deploy.
+strands-agents==1.53.0
+neo4j==6.2.0
+# neo4j-graphrag below 1.16.0 runs model-generated Cypher with no
+# read-only check. From 1.16.0 the Text2CypherRetriever plans the query
+# with EXPLAIN and refuses anything the planner does not report as
+# read-only. An agent calls that retriever directly from Module 3.
+neo4j-graphrag==1.19.0
+neo4j-agent-memory[bedrock]==0.5.0
+numpy>=2.0.0
+# Nothing in the workshop imports pyarrow. The Neo4j driver imports it
+# best-effort in neo4j/_optional_deps.py, and the Vocareum image ships a
+# NumPy 1.x build of it in dist-packages. Reached from a kernel that
+# resolves numpy 2 first, that build makes numpy print its "compiled using
+# NumPy 1.x ... _ARRAY_API not found" block on stderr before the driver
+# swallows the ImportError, which reads like a broken environment. 16.1.0
+# is the first NumPy 2 build, and installing it shadows the stale one.
+pyarrow>=16.1.0
+# botocore below 1.39.0 does not recognise AWS_BEARER_TOKEN_BEDROCK.
+# It ignores the Bedrock API key and signs with SigV4, so the call fails
+# on a lab account with no sign that the key was dropped.
+boto3>=1.39.0
+botocore>=1.39.0
+# bedrock-agentcore is what the deployed image imports to serve invocations,
+# and `runtime_app/agent_requirements.txt` pins it to this same version, so the
+# kernel a participant builds the payload in runs what the container runs. The
+# starter toolkit is the other half of Module 5: it writes the Dockerfile,
+# uploads the build context and drives the CodeBuild job, so a range that
+# resolves differently next Tuesday changes how the image is built with nothing
+# in this repository changing. Both declare `requires-python = ">=3.10"`, which
+# the hosted lab image satisfies.
+bedrock-agentcore==1.22.0
+bedrock-agentcore-starter-toolkit==0.3.12
+mcp>=1.0.0
+mcp-proxy-for-aws==1.6.4
+python-dotenv>=1.0.0
+
+# Needed only by the maintenance notebook runner. Workshop
+# participants do not need these to run the notebooks themselves.
+nbconvert>=7.17.1
+nbformat>=5.11.1
+ipykernel>=7.3.0
+typing-extensions>=4.0.0
+numexpr>=2.10.0
+requests>=2.34.2
