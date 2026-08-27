@@ -1,5 +1,64 @@
 # Grounded AI Agents with Neo4j and AWS
 
+
+# Reference
+1. https://github.com/neo4j-partners/neo4j-bedrock-graphrag-workshop/tree/main
+2. https://github.com/neo4j-field/neo4j-mcp-workspace-template/tree/main/mcp-neo4j-lexical-graph
+
+
+MCP & databases
+
+https://github.com/tigergraph/tigergraph-mcp/tree/main
+https://github.com/neo4j-field/neo4j-mcp-workspace-template
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Live Workshop: Start Here
 
 You will use these two resources side by side during the live workshop. Keep both open.
