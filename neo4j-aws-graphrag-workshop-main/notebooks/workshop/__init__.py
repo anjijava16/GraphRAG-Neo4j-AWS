@@ -1,0 +1,37 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+"""Code shared by more than one workshop module.
+
+A file belongs here when two or more modules consume it. A file used by exactly
+one module lives in that module's folder and is imported flat, so the import
+style tells a reader which tier they are in: `from workshop.graph_schema import
+GRAPH_SCHEMA` is shared and editing it affects other modules, while `from
+reservation_command import ...` is that module's own file.
+
+Import submodules directly, for example::
+
+    from workshop.contracts import MAX_GUESTS
+    from workshop.graph_connection import neo4j_auth, require_neo4j_env
+
+A module notebook opens by calling `workshop.bootstrap.start_module`, which
+puts this package and the notebook's own folder on the import path and reads
+the workshop's `.env` files. That file holds the setup all seven notebooks
+used to repeat.
+
+This package deliberately re-exports nothing. `bedrock_providers`, `fixtures`,
+`hybrid_retrieval`, and `retrieval_setup` all build AWS or Neo4j clients, and
+`workshop_utils` imports the Strands SDK. A convenience re-export here would drag
+every one of those into `import workshop`, and `contracts` promises the
+reservation Lambda that it can be imported without touching credentials or the
+network. Keeping this file empty of imports is what makes that promise true.
+
+No module in this package raises at import. `graph_connection` used to, when
+`NEO4J_PASSWORD` was unset; that check now lives in `require_neo4j_env()`, which
+a caller invokes when it cannot proceed without a database.
+"""
+
+# Bumped on any change that reaches a running lab: notebook content, this
+# package's modules, or the deploy/runtime image. `1.0_verify_environment.ipynb`
+# prints this line first, so a support request carries which revision of the
+# workshop the participant is actually running.
+__version__ = "0.1.0"
